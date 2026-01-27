@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% set css = ["style.css"] %}
+
+{% block body %}
+    <header>
+        <a href="">Olympics <span>Training</span></a>
+        <div class="header-links">
+            <a href="">Задачи</a>
+            <a href="">Решения</a>
+        </div>
+    </header>
+    <h1>{{ current_user.login }}</h1>
+    {% if current_user %}
+        <a href="find/simple">Battle</a>
+    {% endif %}
+    <a href="login">log in</a>
+    <a href="signup">Sign up</a>
+
+{% endblock %}

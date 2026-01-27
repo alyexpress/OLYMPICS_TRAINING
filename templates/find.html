@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% set title = "Olympics Training | Поиск турнира" %}
+{% set sockets = true %}
+{% set css = ["find.css"] %}
+{% set js = ["find.js"] %}
+
+{% block body %}
+    <a href="javascript:history.back()"><</a>
+    <div>
+        <img src="{{ url_for("static", filename="imgs/loading.jpg") }}" alt="">
+        <div>
+            <h1>Поиск оппонента...</h1>
+            <span>Вам предстоит решить задачу на</span>
+            <span>скорость против другого участника</span>
+        </div>
+    </div>
+{% endblock %}

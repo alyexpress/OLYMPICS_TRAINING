@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Rubik;
+    src: url("../font/Rubik.ttf");
+}
+
+body * {
+    font-family: Rubik, sans-serif;
+}

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for("static", filename= "css/base.css") }}">
+    {% for file in css %}<link rel="stylesheet" href="{{ url_for("static", filename= "css/" + file) }}">{% endfor %}
+    {% if sockets is defined %} <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>{% endif %}
+    <title>{% if title is defined %}{{ title }}{% else %}Olympics Training{% endif %}</title>
+</head>
+<body>
+    {% block body %}{% endblock %}
+    {% for file in js %}<script src="{{ url_for("static", filename= "js/" + file) }}"></script>{% endfor %}
+</body>
+</html>

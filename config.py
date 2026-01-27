@@ -1,0 +1,8 @@
+# DATABASE SETTINGS
+DATABASE = "data/database.db"
+
+# SERVER SETTINGS
+SECRET_KEY = '92VaLen3n'
+HOST = "0.0.0.0"
+PORT = 8080
+DEBUG = True

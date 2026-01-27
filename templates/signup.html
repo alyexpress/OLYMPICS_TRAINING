@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% set title = "Olympics Training | Регистрация" %}
+{% set css = ["login.css"] %}
+
+{% block body %}
+    <form action="" method="post">
+        <h1>Регистрация:</h1>
+        {% if error is defined %}
+            <input type="text" name="login" placeholder="Логин" value="{{ error["login"][0] }}">
+            {% if error["login"][1] != "" %}<span>{{ error["login"][1] }}</span>{% endif %}
+            <input type="password" name="password" placeholder="Пароль" value="{{ error["password"][0] }}">
+            {% if error["password"][1] != "" %}<span>{{ error["password"][1] }}</span>{% endif %}
+            <input type="password" name="check" placeholder="Подтвердите" value="{{ error["check"][0] }}">
+            {% if error["check"][1] != "" %}<span>{{ error["check"][1] }}</span>{% endif %}
+        {% else %}
+            <input type="text" name="login" placeholder="Логин">
+            <input type="password" name="password" placeholder="Пароль">
+            <input type="password" name="check" placeholder="Подтвердите">
+        {% endif %}
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}
