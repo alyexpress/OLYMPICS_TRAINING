@@ -4,17 +4,19 @@
 {% set css = ["login.css"] %}
 
 {% block body %}
+    <a href="javascript:history.back()" class="back"><</a>
     <form action="" method="post">
         <h1 style="font-size: 34px">Вход в аккаунт:</h1>
         {% if error is defined %}
-            <input type="text" name="login" placeholder="Логин" value="{{ error["login"][0] }}">
+            <input type="text" name="login" placeholder="Логин" value="{{ error["login"][0] }}" autocomplete="off" required>
             {% if error["login"][1] != "" %}<span>{{ error["login"][1] }}</span>{% endif %}
-            <input type="password" name="password" placeholder="Пароль" value="{{ error["password"][0] }}">
+            <input type="password" name="password" placeholder="Пароль" value="{{ error["password"][0] }}" required>
             {% if error["password"][1] != "" %}<span>{{ error["password"][1] }}</span>{% endif %}
         {% else %}
-        <input type="text" name="login" placeholder="Логин">
-        <input type="password" name="password" placeholder="Пароль">
+        <input type="text" name="login" placeholder="Логин" autocomplete="off" required>
+        <input type="password" name="password" placeholder="Пароль" required>
         {% endif %}
         <button type="submit">Войти в аккаунт</button>
+        <div class="set">Нет аккаунта? <a href="/signup">Зарегистрироваться</a></div>
     </form>
 {% endblock %}

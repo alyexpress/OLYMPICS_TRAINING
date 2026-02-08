@@ -6,15 +6,73 @@
     <header>
         <a href="">Olympics <span>Training</span></a>
         <div class="header-links">
-            <a href="">Задачи</a>
-            <a href="">Решения</a>
+            {% if current_user.is_authenticated and current_user.admin %}
+                <a href="/add-task">Добавить</a>
+            {% endif %}
+            <a href="/tasks">Задачи</a>
+            {% if current_user.is_authenticated %}
+                <button>Соревнование</button>
+                <div class="battle-dropdown">
+                    <a href="/find/simple">Лёгкие задачи</a>
+                    <a href="/find/medium">Средние задачи</a>
+                    <a href="/find/hard">Сложные задачи</a>
+                </div>
+                <a href="/logout">Выйти</a>
+            {% else %}
+                <a href="/login">Войти</a>
+                <a href="/signup">Регистрация</a>
+            {% endif %}
         </div>
     </header>
-    <h1>{{ current_user.login }}</h1>
-    {% if current_user %}
-        <a href="find/simple">Battle</a>
+    {% if current_user.is_authenticated %}
+        <div style="display: flex">
+            <div class="user-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+                <div style="margin-left: 20px;">
+                    <h1>{{ current_user.login }}</h1>
+                    <span>На сайте с {{ date }}</span>
+                </div>
+            </div>
+            <div class="user-param">
+                <div>Рейтинг соревнований: <span>{{ current_user.rating }}</span></div>
+                <div>Правильных решений: <span>{{ percent }}%</span></div>
+                <div>Попыток решения: <span>{{ absolute }}</span></div>
+                <div>Верных ответов: <span>{{ resolve }}</span></div>
+            </div>
+        </div>
+        <img src="{{ url_for("static", filename="imgs/progress/" + current_user.id | string + ".png") }}" alt="progress">
+    {% else %}
+        <div class="suggest">
+            <img src="{{ url_for("static", filename="imgs/cup.jpg") }}" alt="Кубок">
+            <div>
+                <h1>Войдите в Аккаунт:</h1>
+                <form action="/login" method="post" style="width: calc(90% + 24px)">
+                    <input type="text" name="login" placeholder="Логин" autocomplete="off" required>
+                    <input type="password" name="password" placeholder="Пароль" required>
+                    <div style="display: flex; align-items: center">
+                        <span style="flex-grow: 1">Нет аккаунта? <a href="/signup">Зарегистрироваться</a></span>
+                        <button type="submit">Войти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     {% endif %}
-    <a href="login">log in</a>
-    <a href="signup">Sign up</a>
-
+    <h1 style="font-size: 40px;">Задачи подобранные для вас:</h1>
+    {% for task in tasks %}
+        <a href="{{ task["url"] }}" class="task"
+           data-subject="{{ task["subject"] }}"
+           data-difficult="{{ task["difficult"] }}">
+            <p class="task-title">{{ task["title"] }}</p>
+            <span>Предмет: {{ task["subject"] }}</span>
+            <span>Сложность: {{ task["difficult"] }}</span>
+            <span>Процент решения: {{ task["percent"] }}%</span>
+        </a>
+    {% endfor %}
+    <div class="more"><a href="/tasks">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+        </svg>Больше задач</a></div>
 {% endblock %}

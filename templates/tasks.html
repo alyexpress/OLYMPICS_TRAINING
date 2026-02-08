@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% set title = "Olympics Training | Задачи " %}
+{% set css = ["style.css"] %}
+
+{% block body %}
+    <header>
+        <a href="/">Olympics <span>Training</span></a>
+        <div class="header-links">
+            {% if current_user.is_authenticated and current_user.admin %}
+                <a href="/add-task">Добавить</a>
+            {% endif %}
+            <a href="/tasks">Задачи</a>
+            {% if current_user.is_authenticated %}
+                <button>Соревнование</button>
+                <div class="battle-dropdown">
+                    <a href="/find/simple">Лёгкие задачи</a>
+                    <a href="/find/medium">Средние задачи</a>
+                    <a href="/find/hard">Сложные задачи</a>
+                </div>
+                <a href="/logout">Выйти</a>
+            {% else %}
+                <a href="/login">Войти</a>
+                <a href="/signup">Регистрация</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="filters">
+        <span>Фильтры: </span>
+        <select id="subjects" onchange="filter()">
+            <option>Все предметы</option>
+            {% for subject in subjects %}
+                <option>{{ subject }}</option>
+            {% endfor %}
+        </select>
+        <select id="difficult" onchange="filter()">
+            <option value="any">Любой сложности</option>
+            <option value="Лёгкая">Лёгкие</option>
+            <option value="Средняя">Средние</option>
+            <option value="Сложная">Сложные</option>
+        </select>
+    </div>
+    <h1 style="font-size: 40px; margin: -40px 15px 20px">Коллекция задач:</h1>
+    {% for task in tasks %}
+        <a href="{{ task["url"] }}" class="task"
+           data-subject="{{ task["subject"] }}"
+           data-difficult="{{ task["difficult"] }}">
+            <p class="task-title">{{ task["title"] }}</p>
+            <span>Предмет: {{ task["subject"] }}</span>
+            <span>Сложность: {{ task["difficult"] }}</span>
+            <span>Процент решения: {{ task["percent"] }}%</span>
+        </a>
+    {% endfor %}
+    <script>
+        const subjects = document.getElementById("subjects")
+        const difficult = document.getElementById("difficult")
+        const tasks = Array.from(document.getElementsByClassName("task"))
+
+        function filter() {
+            tasks.forEach(function (task) {
+                if ((subjects.value === "Все предметы" || task.dataset.subject === subjects.value) &&
+                    (difficult.value === "any" || task.dataset.difficult === difficult.value)) {
+                    task.classList.remove("d-none") } else { task.classList.add("d-none") }
+             })
+        }
+    </script>
+{% endblock %}

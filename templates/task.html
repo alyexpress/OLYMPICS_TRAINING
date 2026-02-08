@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% set title = "Olympics Training | " + task.title %}
+{% set css = ["style.css"] %}
+
+{% block body %}
+    <header>
+        <a href="/">Olympics <span>Training</span></a>
+        <div class="header-links">
+            {% if current_user.is_authenticated and current_user.admin %}
+                <a href="/add-task">Добавить</a>
+            {% endif %}
+            <a href="/tasks">Задачи</a>
+            {% if current_user.is_authenticated %}
+                <button>Соревнование</button>
+                <div class="battle-dropdown">
+                    <a href="/find/simple">Лёгкие задачи</a>
+                    <a href="/find/medium">Средние задачи</a>
+                    <a href="/find/hard">Сложные задачи</a>
+                </div>
+                <a href="/logout">Выйти</a>
+            {% else %}
+                <a href="/login">Войти</a>
+                <a href="/signup">Регистрация</a>
+            {% endif %}
+        </div>
+    </header>
+    <div style="display: flex">
+        <div class="sidebar">
+            <div style="overflow: scroll">
+                <h1>Похожие задачи:</h1>
+                {% for t in tasks %}
+                    <a href="/tasks/{{ t.id }}">{{ t.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="main">
+            <h1>{{ task.title }}</h1>
+            <p>{{ task.condition | safe }}</p>
+            {% if task.image %}
+                {% if task.image.startswith("condition/") %}<img src="{{ url_for("static", filename=task.image) }}" alt="{{ task.title }} (картинка)">
+                {% elif task.image.startswith("https://") %}<img src="{{ task.image }}" alt="{{ task.title }} (картинка)">{% endif %}
+            {% endif %}
+            <div>
+                <form action="" method="post">
+                    <input type="text" placeholder="Введите ответ" name="answer" autocomplete="off" required
+                            {% if answer is defined %}value="{{ answer }}"{% endif %}
+                            {% if correct is defined %}class="{% if correct %}correct{% else %}invalid{% endif %}"{% endif %}>
+                    {% if correct is defined and correct %}<a href="/tasks{% if tasks %}/{{ tasks[0].id }}{% endif %}">Дальше</a>
+                    {% else %}<button type="submit">Проверить</button>{% endif %}
+                </form>
+            </div>
+        </div>
+    <script>
+        const imgs = document.querySelectorAll(".main > p > img")
+        window.onload = function () {
+            imgs.forEach(function (img) {
+                let vertical = parseFloat(img.style.verticalAlign) * 1.6
+                let height = parseFloat(window.getComputedStyle(img).height) * 1.7
+                img.style.verticalAlign = vertical.toString() + "pt"
+                img.style.height = height.toString() + "px" })}
+        document.querySelector("input[name=answer]").oninput = function () {
+            document.querySelector("input[name=answer]").classList.remove("invalid")
+            document.querySelector("input[name=answer]").classList.remove("correct")
+        }
+    </script>
+    </div>
+{% endblock %}

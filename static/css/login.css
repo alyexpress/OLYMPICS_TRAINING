@@ -14,7 +14,7 @@ html, body {
 form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 320px;
 }
 
 form * {
@@ -70,4 +70,34 @@ form button {
 
 form button:hover {
     transform: scale(97%);
+}
+
+a.back {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    font-size: 40px;
+    padding: 5px 22px 6px 18px;
+    border-radius: 40px;
+    transition: .2s;
+}
+
+a.back:hover {
+    transform: scale(95%);
+    background: #f9f9f9;
+}
+
+.set {
+    font-size: 16px;
+    justify-content: center;
+    display: flex;
+}
+
+.set > a {
+    font-size: 16px;
+    padding: 0 0 0 5px;
+    color: royalblue;
 }

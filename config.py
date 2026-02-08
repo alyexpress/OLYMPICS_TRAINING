@@ -5,4 +5,4 @@ DATABASE = "data/database.db"
 SECRET_KEY = '92VaLen3n'
 HOST = "0.0.0.0"
 PORT = 8080
-DEBUG = True
+DEBUG = False

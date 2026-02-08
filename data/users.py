@@ -10,4 +10,5 @@ class User(SqlAlchemyBase, UserMixin):
     login = sqlalchemy.Column(sqlalchemy.String, unique=True)
     password = sqlalchemy.Column(sqlalchemy.String)
     rating = sqlalchemy.Column(sqlalchemy.Integer, default=1000)
+    admin = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)

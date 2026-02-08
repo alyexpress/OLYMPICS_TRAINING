@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% set title = "Olympics Training | Добавление задачи" %}
+{% set css = ["style.css", "add-task.css"] %}
+
+{% block body %}
+    <header>
+        <a href="/">Olympics <span>Training</span></a>
+        <div class="header-links">
+            {% if current_user.is_authenticated and current_user.admin %}
+                <a href="/add-task">Добавить</a>
+            {% endif %}
+            <a href="/tasks">Задачи</a>
+            {% if current_user.is_authenticated %}
+                <button>Соревнование</button>
+                <div class="battle-dropdown">
+                    <a href="/find/simple">Лёгкие задачи</a>
+                    <a href="/find/medium">Средние задачи</a>
+                    <a href="/find/hard">Сложные задачи</a>
+                </div>
+                <a href="/logout">Выйти</a>
+            {% else %}
+                <a href="/login">Войти</a>
+                <a href="/signup">Регистрация</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="add-type">
+        <a href="/add-task/manually">Добавить вручную</a>
+        <a href="/add-task/json">Добавить из JSON</a>
+        <a href="/add-task/sdam-gia">Импорт Решу ОГЭ/ЕГЭ</a>
+    </div>
+    {% if method == "manually" %}
+        <form enctype="multipart/form-data" class="manually-block" action="" method="POST">
+            <h1>Добавить задачу вручную:</h1>
+            <input type="text" placeholder="Название задачи" name="title" required>
+            <textarea placeholder="Условие задачи" name="condition" rows="4" required></textarea>
+            <label class="file">
+                <input type="file" accept="image/*" name="image" hidden>
+                <span class="btn">Выберите картинку</span>
+                <span class="text"> для задачи <span style="color: gray">*необязательно</span></span>
+            </label>
+            <input type="text" placeholder="Ответ на задачу" name="answer" required>
+            <input type="text" placeholder="Задача по предмету" name="subject" required>
+            <select name="difficult">
+                <option value="simple">Простая задача</option>
+                <option value="medium">Средняя задача</option>
+                <option value="hard">Сложная задача</option>
+            </select>
+            <button type="submit">Добавить задачу</button>
+        </form>
+        <script>
+            const file = document.querySelector("label.file")
+            file.onchange = function () {
+                file.querySelector(".btn").classList.add("d-none")
+                file.querySelector(".text").innerText = "Выбрана картинка для задачи"
+                file.classList.add("success")
+            }
+        </script>
+    {% elif method == "json" %}
+        <form enctype="multipart/form-data" class="manually-block" action="" method="POST">
+            <h1>Добавить задачу из JSON файла:</h1>
+            <label class="file">
+                <input type="file" accept="application/json" name="json" hidden required>
+                <span class="btn">Выберите json файл</span>
+                <span class="text"> с условием задачи</span>
+            </label>
+            <label class="file">
+                <input type="file" accept="image/*" name="image" hidden>
+                <span class="btn">Выберите картинку</span>
+                <span class="text"> для задачи <span style="color: gray">*необязательно</span></span>
+            </label>
+            <button type="submit">Добавить задачу</button>
+        </form>
+        <script>
+            const file = document.querySelector("label.file:has(input[name=image])")
+            const json = document.querySelector("label.file:has(input[name=json])")
+            file.onchange = function () {
+                file.querySelector(".btn").classList.add("d-none")
+                file.querySelector(".text").innerText = "Выбрана картинка для задачи"
+                file.classList.add("success")
+            }
+            json.onchange = function () {
+                json.querySelector(".btn").classList.add("d-none")
+                json.querySelector(".text").innerText = "Выбран json файл с условием задачи"
+                json.classList.add("success")
+            }
+        </script>
+    {% elif method == "sdam-gia" %}
+        <form class="manually-block" action="" method="POST">
+            <h1 style="font-size: 40px;">Импорт задачи с сайта Решу ОГЭ/ЕГЭ:</h1>
+            <input type="text" placeholder="Название задачи" name="title" required>
+            <input type="text" placeholder="Ссылка на задачу" name="url" required
+                {% if error is defined %}class="invalid"{% endif %}>
+            <input type="text" placeholder="Задача по предмету" name="subject" required>
+            <select name="difficult">
+                <option value="simple">Простая задача</option>
+                <option value="medium">Средняя задача</option>
+                <option value="hard">Сложная задача</option>
+            </select>
+            <button type="submit">Добавить задачу</button>
+        </form>
+    {% endif %}
+{% endblock %}

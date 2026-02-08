@@ -1,0 +1,108 @@
+.add-type {
+    text-align: center;
+    margin: 0;
+}
+
+.add-type > a {
+    text-decoration: none;
+    color: black;
+    background: white;
+    margin: 0 -2px;
+    font-size: 25px;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    transition: .2s;
+}
+
+.add-type > a:hover {
+    background: #ffd83b;
+}
+
+.add-type > a:first-child {
+    padding-left: 30px;
+    border-radius: 30px 0 0 30px;
+    border-left: 1px solid #ddd;
+}
+
+.add-type > a:last-child {
+    padding-right: 30px;
+    border-radius: 0 30px 30px 0;
+    border-right: 1px solid #ddd;
+}
+
+.manually-block {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 20%;
+}
+
+.manually-block > h1 {
+    font-size: 45px;
+}
+
+.manually-block > input,
+.manually-block > textarea,
+.manually-block > select,
+.manually-block > label.file {
+    font-size: 25px;
+    padding: 10px 20px;
+    outline: none;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-bottom: 7px;
+    transition: .2s;
+}
+
+.manually-block > input:focus,
+.manually-block > textarea:focus,
+.manually-block > select:focus {
+    box-shadow: 0 0 0 3px lightskyblue;
+}
+
+.manually-block > input.invalid {
+    background: #ffc6c6;
+    border-color: #ff7171;
+}
+
+.manually-block > textarea {
+    resize: vertical;
+    min-height: 30px;
+}
+
+.manually-block > label.file > .btn {
+    background: #ffd83b;
+    padding: 5px 10px;
+    border-radius: 16px;
+    margin: -10px 0 -10px -15px;
+    display: inline-block;
+    transition: .2s;
+}
+
+.manually-block > label.file > .btn:hover {
+    transform: scale(0.97);
+}
+
+.d-none { display: none!important; }
+
+.manually-block > label.file.success {
+    background: #bfffad;
+    border-color: #94e155;
+}
+
+.manually-block > button {
+    font-size: 28px;
+    font-weight: 500;
+    padding: 10px 20px;
+    width: 300px;
+    background: #ffd83b;
+    border: none;
+    border-radius: 20px;
+    margin: 5px 0 5px calc(100% - 300px);
+    transition: .2s;
+}
+
+.manually-block > button:hover {
+    transform: scale(.95);
+}
