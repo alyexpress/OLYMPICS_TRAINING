@@ -1,4 +1,4 @@
-# ⭐️ OlympicsTraining
+# ⭐️ Olympics Training
 > Проект для участия в московской предпрофессиональной олимпиаде школьников.
 > Практика: Информационные технологии (кейс №1) Платформа для подготовки к олимпиадам.
 ## Глава 1: Установка проекта
@@ -54,4 +54,4 @@
 Или: https://math-ege.sdamgia.ru/problem?id=26804
 
 
-<span style="display: block; padding-top: 2em; font-weight: bold">2026 © AlyExpress™</span>
+**2026 © AlyExpress™**
