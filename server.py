@@ -236,33 +236,33 @@ def add_task(method):
         except Exception:
             return render_template("add-task.html", method=method, error=True)
     elif request.method == "POST" and method == "sdam-gia":
-        # try:
-        response = get(request.form.get("url"))
-        host = request.form.get("url").split("sdamgia.ru/")[0]
-        soup = bs(response.text, "html.parser")
-        block = soup.select(".pbody > p")[0]
-        image = list(filter(lambda x: x["src"].
-            startswith("/get_file?"), block.select("img")))
-        image = image[0] if image else None
-        condition = str(block)
-        for r in ['<p class="left_margin">',
-                  str(image), '</p>']:
-            condition = condition.replace(r, "")
-        answer = soup.select(".answer > span")[0].text
-        db_sess = db_session.create_session()
-        db_sess.add(Task(
-            title=request.form.get("title"),
-            condition=condition,
-            image=(f"{host}sdamgia.ru" + image["src"]
-                   if image is not None else None),
-            answer=answer.replace("Ответ: ", ""),
-            subject=request.form.get("subject"),
-            difficult=request.form.get("difficult")
-        ))
-        db_sess.commit()
-        # except Exception as e:
-        #     print(e)
-        #     return render_template("add-task.html", method=method, error=True)
+        try:
+            response = get(request.form.get("url"))
+            host = request.form.get("url").split("sdamgia.ru/")[0]
+            soup = bs(response.text, "html.parser")
+            block = soup.select(".pbody > p")[0]
+            image = list(filter(lambda x: "/get_file?"
+                in x["src"], block.select("img")))
+            image = image[0] if image else None
+            condition = str(block)
+            for r in ['<p class="left_margin">',
+                      str(image), '</p>']:
+                condition = condition.replace(r, "")
+            answer = soup.select(".answer > span")[0].text
+            db_sess = db_session.create_session()
+            db_sess.add(Task(
+                title=request.form.get("title"),
+                condition=condition,
+                image=((image["src"] if image["src"].startswith("https://")
+                        else f"{host}sdamgia.ru" + image["src"])
+                        if image is not None else None),
+                answer=answer.replace("Ответ: ", ""),
+                subject=request.form.get("subject"),
+                difficult=request.form.get("difficult")
+            ))
+            db_sess.commit()
+        except Exception:
+            return render_template("add-task.html", method=method, error=True)
     return render_template("add-task.html", method=method)
 
 @app.route("/find/<difficult>")
